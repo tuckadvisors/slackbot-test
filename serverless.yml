@@ -1,0 +1,37 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: druce
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: slackbot
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: slackbot
+
+provider:
+  name: aws
+  runtime: python3.12
+  region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - secretsmanager:GetSecretValue
+          Resource: arn:aws:secretsmanager:us-east-1:840464442216:secret:Tuck_Advisors_Slackbot_Token-og9N0q
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+
+functions:
+  lambda_handler:
+    handler: handler.lambda_handler
+    events:
+      - http:
+          path: slackbot
+          method: get
+      - http:
+          path: slackbot
+          method: post
+
