@@ -47,6 +47,25 @@ def get_secret(secret_name, region_name):
 
 
 def lambda_handler(event, context):
+    """
+    AWS Lambda function that handles incoming requests from Slack extension.
+
+    Args:
+        event (dict): The event data passed to the Lambda function.
+        context (object): The runtime information of the Lambda function.
+
+    Returns:
+        dict: A dictionary containing the response data to be sent back to Slack.
+
+    Raises:
+        None
+
+    Example Usage:
+        The `lambda_handler` function is triggered by an incoming request from Slack.
+        It parses the request, extracts the command text, prepares a response, and
+        sends it back to Slack.
+
+    """
     logger.info("Received event: %s", json.dumps(event))
 
     # Parse the incoming request from Slack
@@ -57,7 +76,7 @@ def lambda_handler(event, context):
     command_text = params.get('text', [''])[0]
     logger.info(f"Command text: {command_text}")
 
-    # look up a secret (not used)
+    # look up a secret (for testing purposes not used)
     secret_name = "Tuck_Advisors_Slackbot_Token"
     region_name = "us-east-1"
     secret_value = get_secret(secret_name, region_name)

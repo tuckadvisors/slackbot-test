@@ -5,7 +5,7 @@
 - [Find role associated with lambda](role.png)
 - [Give permissions](policy.png) (note that you need to give permission to that specific secret)
 - Test with local boto config `python app.py`
-- Slackbot doesn't currently need any secrets but need to test this code and use in other lambdas
+- Slackbot doesn't currently need any Amazon secrets but need to test this code and use in other lambdas
 
 
 ### Set up a Slack app
@@ -16,13 +16,13 @@
   - Set the command to /testbot and the Request URL to the AWS Lambda endpoint that will handle the Slack command (see below).
 - Enable Incoming Webhooks:
   - In the Slack app settings, go to “Features” > “Incoming Webhooks” and activate the feature.
-  - Create a new webhook URL and copy it. You’ll need this URL so the Lambda function can post messages to Slack.
+  - Create a new webhook URL and copy it. You’ll need this URL so the Lambda function can post messages to Slack. (not currently used, response payload is used go generate a Slack message)
   - Save the settings.
 
 ### Set Up AWS Lambda to Handle Slack Commands:
   - Lambda function in handler.py will handle the incoming requests from the slackbot, and then respond back to Slack using the incoming Webhook URL.
   - We can deploy by installing the requirements.txt to a local directory and making a deployment package and uploading to AWS, but also have to set up API gateway, logging, permissions etc.
-  - Deploy using [serverless](https://www.serverless.com/)
+  - Deploy using [serverless](https://www.serverless.com/) to automate this process.
   - Config for AWS is in `serverless.yaml`
 - [install npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 ```
@@ -32,6 +32,11 @@ npm install serverless-python-requirements
 ```
 
 - Interactively create serverless account and project (slackbot)
+
 `serverless`
-This will overwrite README.md and serverless.yml, do git diff and revert those changes, make sure repo is in sync with GitHub
+
+This will overwrite README.md and serverless.yml, do git diff and revert those changes, make sure repo is in sync with GitHub and then deploy with:
+
 `serverless deploy`
+
+See additional info in [README-serverless.md](README-serverless.md)
